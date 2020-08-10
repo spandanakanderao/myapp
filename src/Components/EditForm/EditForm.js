@@ -98,7 +98,7 @@ class EditForm extends Component {
 
     render(){
         const listFields = [...this.state.listFields];
-        const { formValid } = {...this.state};
+        const { formValid } = this.state;
         return (
 			
                 <form className="editForm" onSubmit={(event) => event.preventDefault()}>

@@ -27,6 +27,9 @@ class Layout extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.getData();
+    }
 
     componentWillReceiveProps(nextProps){
         const { data, setUpdatedData } = {...nextProps};
@@ -97,10 +100,6 @@ class Layout extends Component {
         })
     }
 
-    componentDidMount() {
-        this.props.getData();
-    }
-
     render(){
         const {editForm, showResult, showDetails} = {...this.state};
         let searchOptions = (
@@ -122,8 +121,22 @@ class Layout extends Component {
 }
 
 Layout.propTypes = {
-    data: PropTypes.array,
-    setUpdatedData: PropTypes.array,
+    data: PropTypes.arrayOf(
+		PropTypes.shape({
+		userId: PropTypes.number,
+		id: PropTypes.number,
+		title: PropTypes.string,
+		body: PropTypes.string
+	})
+	),
+    setUpdatedData: PropTypes.arrayOf(
+		PropTypes.shape({
+		userId: PropTypes.number,
+		id: PropTypes.number,
+		title: PropTypes.string,
+		body: PropTypes.string
+	})
+	),
     getData: PropTypes.func,
     updateData: PropTypes.func
 }

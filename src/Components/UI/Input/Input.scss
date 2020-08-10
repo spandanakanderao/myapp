@@ -2,6 +2,10 @@
 	width: 100%;
 	padding: 10px;
 	box-sizing: border-box;
+	.validation-error {
+		margin-left: '2.5rem';
+		color:'red';
+	}
 }
 
 .label {

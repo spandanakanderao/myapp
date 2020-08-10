@@ -15,11 +15,9 @@ function getList(state = initialState, action) {
             }
         case UPDATE_DATA:
             let updateData = action.updateData;
-            console.log(action);
             let listData = [...state.getlistData];
             listData[updateData.id - 1] = updateData;
             let modifiedData = { ...state, listData };
-            console.log('test::::', modifiedData.listData);
             return {
                 ...state,
                 modifiedData: modifiedData.listData

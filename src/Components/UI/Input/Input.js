@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Input.scss';
 
 const input = (props) => {
@@ -18,10 +19,25 @@ const input = (props) => {
 				onChange={props.onChange }
 				onBlur={props.onBlur}
 				required/>
-			<div style={{marginLeft: '2.5rem', color:'red'}}>{ validationError }</div>
+			<div className='validation-error'>{ validationError }</div>
 		</div>
 	);
 	
 };
+
+input.propTypes = {
+	inValid: PropTypes.bool,
+	onChange: PropTypes.func,
+	onBlur: PropTypes.func,
+	value: PropTypes.string,
+	touched: PropTypes.bool,
+	elementConfig: PropTypes.shape({
+		type: PropTypes.string,
+		placeholder: PropTypes.string
+	}),
+	placeholder: PropTypes.string,
+	errorMessage: PropTypes.string
+}
+
 
 export default input;

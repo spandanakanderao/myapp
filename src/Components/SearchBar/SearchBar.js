@@ -1,33 +1,38 @@
-import React, {Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Input from '../UI/Input/Input';
 import './SearchBar.scss';
 
 /**
  * SearchBar component contains a input field with autocomplete functionality
  */
-class SearchBar extends Component {
-	constructor(props) {
-		super(props);
-		this.findSearchData = this.findSearchData.bind(this);
-	}
-
+const SearchBar = (props) => {
 	/**
 	 * findSearchData is called on change of data in search box
 	 */
-	findSearchData(event){
+	function findSearchData(event){
 		let value = event.target.value;
-		let data = this.props.searchData;
+		let data = props.searchData;
 		let result = data.filter((list) => list.title.includes(value));
-		if(!value.length) return this.props.resultData([...data],false)
-		this.props.resultData(result, value.length)
+		if(!value.length) return props.resultData([...data],false)
+		props.resultData(result, value.length)
 	}
 
-	render() {
-		return (
-			<div className="searchBar">
-			<Input placeholder="Enter search keyword" onChange={this.findSearchData}/>	
-			</div>
-		)	
-	}
+	return (
+		<div className="searchBar">
+		<Input placeholder="Enter search keyword" onChange={findSearchData}/>	
+		</div>
+	)	
+}
+SearchBar.propTypes = {
+	searchData: PropTypes.arrayOf(
+		PropTypes.shape({
+		userId: PropTypes.number,
+		id: PropTypes.number,
+		title: PropTypes.string,
+		body: PropTypes.string
+	})
+	),
+	resultData: PropTypes.func
 }
 export default SearchBar;
