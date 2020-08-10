@@ -1,0 +1,31 @@
+.editForm {
+    width: 90%;
+    border: 1px solid #ccc;
+    margin: 5% auto;
+    box-shadow: 5px 10px 5px 5px #ccc;
+    .title {
+        font-weight: bold;
+        padding: 10px;
+        text-align: center;
+    }
+    .d-flex {
+        display: flex;
+        text-align: left;
+        margin-bottom: 10px;
+        align-items: center;
+        margin-left: 10px;
+    }
+    .d-flex .input {
+        flex: 25;
+    }
+    .d-flex label {
+        flex: 1;
+        margin-left: 10px;
+    }
+    .buttons-section {
+        text-align: center;
+        .Button {
+            width: 20% !important;
+        }
+    }
+}
