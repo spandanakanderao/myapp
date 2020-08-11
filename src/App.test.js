@@ -1,26 +1,24 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import {createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import suggestionData from './reducers/suggestionData';
-import thunk from 'redux-thunk';
+import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga'
+import rootReducer from './reducers'
+import rootSaga from './sagas';
+import App from './App';
 
-const reducer = combineReducers({
-    suggestions: suggestionData
-});
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const sagaMiddleware = createSagaMiddleware()
 
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk))); 
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(rootSaga);
 
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  const body = document.getElementsByTagName("body")[0]
-  div.setAttribute("id", "root");
-  body.append(div);
-  ReactDOM.render(<Provider store={store}>
-    <App />
-        </Provider>, document.getElementById('root'));
-  ReactDOM.unmountComponentAtNode(div);
-});
+describe('<App />', () => {
+
+    it('Renders App successfully without error', () => {
+        const AppComponent = render(<Provider store={store}><App /></Provider>);
+        expect(AppComponent.container).toBeTruthy();
+    });
+
+})

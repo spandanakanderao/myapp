@@ -1,29 +1,35 @@
 import React from 'react';
-import { configure, mount, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import Layout from './Layout'
-import SearchBar from '../../components/SearchBar/Searchbar'
-import SearchResults from '../../components/searchResults/searchResults'
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga'
+import rootReducer from '../../reducers'
+import rootSaga from '../../sagas';
+import Layout from './Layout';
+import SearchBar from '../../Components/SearchBar/SearchBar';
+import SearchResults from '../../Components/SearchResults/SearchResults';
 
-import EditForm from '../../components/EditForm/EditForm'
+const sagaMiddleware = createSagaMiddleware()
 
-configure({adapter: new Adapter()});
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
-describe('Render form', () => {
-    let wrapper;
+sagaMiddleware.run(rootSaga);
 
-    it('should render <SearchBar />',() => {
-        wrapper = mount(<SearchBar />);
-        expect(wrapper.find(SearchBar)).toBeDefined();
-    })
-    it('should render <SearchResults />',() => {
-        wrapper.setState({showResult: true});
-        wrapper.update();
-        expect(wrapper.find(SearchResults)).toBeDefined();
-    })
-    
-    it('should render <EditForm />',() => {
-        wrapper = shallow(<EditForm />);
-        expect(wrapper.find(EditForm)).toBeDefined();
-    })
-});
+const listData = [{ id: 1, title: 'Title', body: 'Body' }];
+
+describe('<Layout />', () => {
+
+    it('Renders successfully without error', () => {
+        const LayoutComponent = render(<Provider store={store}><Layout /></Provider>);
+        expect(LayoutComponent.container).toBeTruthy();
+    });
+
+    it('Renders successfully without error', () => {
+        const SearchBarComponent = render(<SearchBar />);
+        expect(SearchBarComponent.container).toBeTruthy();
+    });
+    it('Renders successfully without error', () => {
+        const SearchResultsComponent = render(<SearchResults {...{listData}} />);
+        expect(SearchResultsComponent.container).toBeTruthy();
+    });
+})
